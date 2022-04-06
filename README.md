@@ -1,5 +1,6 @@
 # CDiffuSE
-[![License](Apache License 2.0](https://github.com/neillu23/CDiffuSE/blob/main/LICENSE)
+[Apache License 2.0](https://github.com/neillu23/CDiffuSE/blob/main/LICENSE)
+
 CDiffuSE leverages recent advances in diffusion probabilistic models, and proposes a novel speech enhancement algorithm that incorporates characteristics of the observed noisy speech signal into the diffusion and reverse processes. More specifically, we propose a generalized formulation of the diffusion probabilistic model named conditional diffusion probabilistic model that, in its reverse process, can adapt to non-Gaussian real noises in the estimated speech signal.
 [Conditional Diffusion Probabilistic Model for Speech Enhancement](https://arxiv.org/abs/2202.05256).
 
