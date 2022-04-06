@@ -15,8 +15,8 @@ Before you start training, you'll need to prepare a training dataset. The defaul
 You need to set the output path and data path under path.sh
 
 ```
-output_path=path-to-output-directory
-voicebank=path-to-voicebank-directory
+output_path=[path_to_output_directory]
+voicebank=[path_to_voicebank_directory]
 ```
 
 Usage:
