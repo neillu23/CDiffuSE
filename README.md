@@ -28,7 +28,6 @@ Train SE model or pretrain model with clean Mel-Spectrum conditioner
 Train SE model based on the pretrain model with clean Mel-Spectrum conditioner
 ```
 ./train.sh [stage] se [model_directory] [pretrained_model_directory]/weights-[ckpt].pt
-
 ```
 
 #### Multi-GPU training
@@ -40,7 +39,6 @@ Usage:
 ```
 ./valid.sh [stage] [checkpoint id] [se or se_pre] [model name]
 ./inference.sh [stage] [checkpoint id] [se or se_pre] [model name]
-
 ```
 
 ## References
