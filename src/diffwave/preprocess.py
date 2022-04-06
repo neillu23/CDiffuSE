@@ -128,11 +128,11 @@ if __name__ == '__main__':
   parser.add_argument('outdir',
       help='output directory containing .npy files for training')
   parser.add_argument('--se', dest='se', action='store_true')
-  parser.add_argument('--pretrain', dest='se', action='store_false')
+  parser.add_argument('--se_pre', dest='se', action='store_false')
   parser.add_argument('--train', dest='test', action='store_false')
   parser.add_argument('--test', dest='test', action='store_true')
   parser.add_argument('--voicebank', dest='voicebank', action='store_true')
   parser.set_defaults(se=True)
   parser.set_defaults(test=False)
-  parser.set_defaults(voicebank=False)
+  parser.set_defaults(voicebank=True)
   main(parser.parse_args())

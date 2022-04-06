@@ -86,25 +86,14 @@ class SpectrogramUpsampler(nn.Module):
 
 
 class ResidualBlock(nn.Module):
-  def __init__(self, n_mels, residual_channels, dilation, fix_in=False, split=False):
+  def __init__(self, n_mels, residual_channels, dilation):
     super().__init__()
     self.dilated_conv = Conv1d(residual_channels, 2 * residual_channels, 3, padding=dilation, dilation=dilation)
     self.diffusion_projection = Linear(512, residual_channels)
     self.conditioner_projection = Conv1d(n_mels, 2 * residual_channels, 1)
-    self.split = split
-    self.fix_in = fix_in
-    if self.split:
-      # print("2 individual Conv1d")
-      self.output_projection = Conv1d(residual_channels, residual_channels, 1)
-      self.output_residual = Conv1d(residual_channels, residual_channels, 1)
-    else:
-      if self.fix_in:
-        print("1 big and 1 small Conv1d")
-        self.output_projection = Conv1d(residual_channels, 2 * residual_channels, 1)
-        self.output_residual = Conv1d(residual_channels, residual_channels, 1)
-      else:
-        print("1 big Conv1d")
-        self.output_projection = Conv1d(residual_channels, 2 * residual_channels, 1)
+    # self.output_projection = Conv1d(residual_channels, 2 * residual_channels, 1)
+    self.output_projection = Conv1d(residual_channels, residual_channels, 1)
+    self.output_residual = Conv1d(residual_channels, residual_channels, 1)
 
   def forward(self, x, conditioner, diffusion_step):
     diffusion_step = self.diffusion_projection(diffusion_step).unsqueeze(-1)
@@ -116,18 +105,10 @@ class ResidualBlock(nn.Module):
     gate, filter = torch.chunk(y, 2, dim=1)
     y = torch.sigmoid(gate) * torch.tanh(filter)
 
-    if self.split:
-      residual = self.output_residual(y)
-      skip = self.output_projection(y)
-    elif self.fix_in:
-      #calculate residual from non-fixed parameter
-      residual = self.output_residual(y)
-      #calculate skip from fixed parameter
-      y = self.output_projection(y)
-      _ , skip = torch.chunk(y, 2, dim=1)
-    else:
-      y = self.output_projection(y)
-      residual, skip = torch.chunk(y, 2, dim=1)
+    residual = self.output_residual(y)
+    skip = self.output_projection(y)
+    # y = self.output_projection(y)
+    # residual, skip = torch.chunk(y, 2, dim=1)
 
     return (x + residual) / sqrt(2.0), skip
 
@@ -140,7 +121,7 @@ class DiffWave(nn.Module):
     self.diffusion_embedding = DiffusionEmbedding(len(params.noise_schedule))
     self.spectrogram_upsampler = SpectrogramUpsampler(params.n_mels)
     self.residual_layers = nn.ModuleList([
-        ResidualBlock(params.n_mels, params.residual_channels, 2**(i % params.dilation_cycle_length), fix_in=args.fix_in, split=args.voicebank)
+        ResidualBlock(params.n_mels, params.residual_channels, 2**(i % params.dilation_cycle_length))
         for i in range(params.residual_layers)
     ])
     self.skip_projection = Conv1d(params.residual_channels, params.residual_channels, 1)

@@ -120,39 +120,6 @@ class DiffWaveLearner:
       except FileNotFoundError:
         return False
 
-  def fix_parameter_in(self):
-    self.fix_parameter()
-    print("Fix Parameter on the output of residual layer")
-    if hasattr(self.model, 'module') and isinstance(self.model.module, nn.Module):
-      for layer in self.model.module.residual_layers:
-        for param in layer.output_projection.parameters():
-          param.requires_grad = False
-    else:
-      for layer in self.model.residual_layers:
-        for param in layer.output_projection.parameters():
-          param.requires_grad = False
-
-
-        
-  def fix_parameter(self):
-    print("Fix Parameter outside the residual layer")
-    # pdb.set_trace()
-    for param in self.model.parameters():
-      param.requires_grad = True
-    if hasattr(self.model, 'module') and isinstance(self.model.module, nn.Module):
-      for param in self.model.module.skip_projection.parameters():
-        param.requires_grad = False
-
-      for param in self.model.module.output_projection.parameters():
-        param.requires_grad = False
-        
-    else:
-      for param in self.model.skip_projection.parameters():
-        param.requires_grad = False
-
-      for param in self.model.output_projection.parameters():
-        param.requires_grad = False
-
   def train(self, max_steps=None):
     device = next(self.model.parameters()).device
     while True:
@@ -188,14 +155,7 @@ class DiffWaveLearner:
       noise_scale_sqrt = noise_scale**0.5
       m = (((1-self.noise_level[t])/self.noise_level[t]**0.5)**0.5).unsqueeze(1) 
       noise = torch.randn_like(audio)
-      
-      # noisy_audio = noise_scale_sqrt * audio + (1.0 - noise_scale)**0.5 * noise
-
-      # predicted = self.model(noisy_audio, spectrogram, t)
-      # loss = self.loss_fn(noise, predicted.squeeze(1))
-      
       noisy_audio = (1-m) * noise_scale_sqrt  * audio + m * noise_scale_sqrt * noisy  + (1.0 - (1+m**2) *noise_scale)**0.5 * noise
-
       combine_noise = (m * noise_scale_sqrt * (noisy-audio) + (1.0 - (1+m**2) *noise_scale)**0.5 * noise) / (1-noise_scale)**0.5
       predicted = self.model(noisy_audio, spectrogram, t)
       loss = self.loss_fn(combine_noise, predicted.squeeze(1))
@@ -224,12 +184,6 @@ def _train_impl(replica_id, model, dataset, args, params):
   learner = DiffWaveLearner(args.model_dir, model, dataset, opt, params, fp16=args.fp16)
   learner.is_master = (replica_id == 0)
   learner.restore_from_checkpoint(args.pretrain_path)
-  if args.fix:
-    learner.fix_parameter()
-  elif args.fix_in:
-    learner.fix_parameter_in()
-  else:
-    print("Fix no parameters")
   learner.train(max_steps=args.max_steps)
 
 

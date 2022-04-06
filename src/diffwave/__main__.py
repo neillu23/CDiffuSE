@@ -59,14 +59,10 @@ if __name__ == '__main__':
   parser.add_argument('--fp16', action='store_true', default=False,
       help='use 16-bit floating point operations for training')
   parser.add_argument('--se', dest='se', action='store_true')
-  parser.add_argument('--pretrain', dest='se', action='store_false')
-  parser.add_argument('--fix', dest='fix', action='store_true')
-  parser.add_argument('--fix_in', dest='fix_in', action='store_true')
+  parser.add_argument('--se_pre', dest='se', action='store_false')
   parser.add_argument('--pretrain_path', default=None, type=str,
       help='pretrain model path if there is a pretrain mel-spectrum conditioned model, load_state_dict strict=False')
   parser.add_argument('--voicebank', dest='voicebank', action='store_true')
   parser.set_defaults(se=True)
-  parser.set_defaults(fix=False)
-  parser.set_defaults(fix_in=False)
   parser.set_defaults(voicebank=False)
   main(parser.parse_args())
