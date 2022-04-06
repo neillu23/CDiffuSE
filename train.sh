@@ -33,7 +33,7 @@ if [ ${stage} -le 1 ]; then
     echo "create ${spec_type} from ${wave_path} to ${spec_root}"
     # rm -r ${spec_root} 2>/dev/null
     mkdir -p ${spec_root}
-    python src/diffwave/preprocess.py ${wave_path} ${spec_root} --${task} --voicebank
+    python src/cdiffuse/preprocess.py ${wave_path} ${spec_root} --${task} --voicebank
     mkdir -p ${spec_root}/train
     mkdir -p ${spec_root}/valid
     mv ${spec_root}/p226_*.wav.spec.npy ${spec_root}/valid
@@ -53,9 +53,9 @@ if [ ${stage} -le 2 ]; then
     train_spec_list="${train_spec_list} ${spec_path}"
     
     if [ -z "$pretrain_model" ]; then
-        python src/diffwave/__main__.py ${output_path}/${model_name} ${target_wav_root} ${noisy_wav_root} ${train_spec_list}  --${task}  --voicebank
+        python src/cdiffuse/__main__.py ${output_path}/${model_name} ${target_wav_root} ${noisy_wav_root} ${train_spec_list}  --${task}  --voicebank
     else
-        python src/diffwave/__main__.py ${output_path}/${model_name} ${target_wav_root} ${noisy_wav_root} ${train_spec_list}  --${task}  --voicebank --pretrain_path ${output_path}/${pretrain_model}
+        python src/cdiffuse/__main__.py ${output_path}/${model_name} ${target_wav_root} ${noisy_wav_root} ${train_spec_list}  --${task}  --voicebank --pretrain_path ${output_path}/${pretrain_model}
     fi
 fi
 

@@ -37,7 +37,7 @@ if [ ${stage} -le 1 ]; then
     mkdir -p ${enhanced_path} 
     echo "inference enhanced wav file from ${spec_root} to ${enhanced_path}"
     
-    python src/diffwave/inference.py  ${output_path}/${model_name}/weights-${ckp}.pt ${test_spec_list} ${voicebank_noisy} -o ${enhanced_path} --${task} --voicebank
+    python src/cdiffuse/inference.py  ${output_path}/${model_name}/weights-${ckp}.pt ${test_spec_list} ${voicebank_noisy} -o ${enhanced_path} --${task} --voicebank
 fi
 
 # if [ ${stage} -le 2 ]; then
