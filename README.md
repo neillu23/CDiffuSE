@@ -1,5 +1,6 @@
 # CDiffuSE
-[![License](Apache License 2.0](https://github.com/neillu23/CDiffuSE/blob/main/LICENSE)
+[Apache License 2.0](https://github.com/neillu23/CDiffuSE/blob/main/LICENSE)
+
 CDiffuSE leverages recent advances in diffusion probabilistic models, and proposes a novel speech enhancement algorithm that incorporates characteristics of the observed noisy speech signal into the diffusion and reverse processes. More specifically, we propose a generalized formulation of the diffusion probabilistic model named conditional diffusion probabilistic model that, in its reverse process, can adapt to non-Gaussian real noises in the estimated speech signal.
 [Conditional Diffusion Probabilistic Model for Speech Enhancement](https://arxiv.org/abs/2202.05256).
 
@@ -14,8 +15,8 @@ Before you start training, you'll need to prepare a training dataset. The defaul
 You need to set the output path and data path under path.sh
 
 ```
-output_path=path-to-output-directory
-voicebank=path-to-voicebank-directory
+output_path=[path_to_output_directory]
+voicebank=[path_to_voicebank_directory]
 ```
 
 Usage:
@@ -27,7 +28,6 @@ Train SE model or pretrain model with clean Mel-Spectrum conditioner
 Train SE model based on the pretrain model with clean Mel-Spectrum conditioner
 ```
 ./train.sh [stage] se [model_directory] [pretrained_model_directory]/weights-[ckpt].pt
-
 ```
 
 #### Multi-GPU training
@@ -39,7 +39,6 @@ Usage:
 ```
 ./valid.sh [stage] [checkpoint id] [se or se_pre] [model name]
 ./inference.sh [stage] [checkpoint id] [se or se_pre] [model name]
-
 ```
 
 ## References
