@@ -24,7 +24,7 @@ from tqdm import tqdm
 import pdb
 
 from dataset import from_path as dataset_from_path
-from model import DiffWave
+from model import DiffuSE
 from params import AttrDict
 
 
@@ -38,7 +38,7 @@ def _nested_map(struct, map_fn):
   return map_fn(struct)
 
 
-class DiffWaveLearner:
+class DiffuSELearner:
   def __init__(self, model_dir, model, dataset, optimizer, params, *args, **kwargs):
     os.makedirs(model_dir, exist_ok=True)
     self.model_dir = model_dir
@@ -181,7 +181,7 @@ def _train_impl(replica_id, model, dataset, args, params):
   torch.backends.cudnn.benchmark = True
   opt = torch.optim.Adam(model.parameters(), lr=params.learning_rate)
 
-  learner = DiffWaveLearner(args.model_dir, model, dataset, opt, params, fp16=args.fp16)
+  learner = DiffuSELearner(args.model_dir, model, dataset, opt, params, fp16=args.fp16)
   learner.is_master = (replica_id == 0)
   learner.restore_from_checkpoint(args.pretrain_path)
   learner.train(max_steps=args.max_steps)
@@ -189,7 +189,7 @@ def _train_impl(replica_id, model, dataset, args, params):
 
 def train(args, params):
   dataset = dataset_from_path(args.clean_dir, args.noisy_dir, args.data_dirs, params, se=args.se, voicebank=args.voicebank)
-  model = DiffWave(args, params).cuda()
+  model = DiffuSE(args, params).cuda()
   _train_impl(0, model, dataset, args, params)
 
 
@@ -200,6 +200,6 @@ def train_distributed(replica_id, replica_count, port, args, params):
 
   device = torch.device('cuda', replica_id)
   torch.cuda.set_device(device)
-  model = DiffWave(args, params).to(device)
+  model = DiffuSE(args, params).to(device)
   model = DistributedDataParallel(model, device_ids=[replica_id], find_unused_parameters=True)
   _train_impl(replica_id, model, dataset_from_path(args.clean_dir, args.noisy_dir, args.data_dirs, params, se=args.se, voicebank=args.voicebank, is_distributed=True), args, params)

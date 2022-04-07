@@ -113,7 +113,7 @@ class ResidualBlock(nn.Module):
     return (x + residual) / sqrt(2.0), skip
 
 
-class DiffWave(nn.Module):
+class DiffuSE(nn.Module):
   def __init__(self, args, params):
     super().__init__()
     self.params = params

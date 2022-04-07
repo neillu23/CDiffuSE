@@ -122,7 +122,7 @@ def main(args):
 
 
 if __name__ == '__main__':
-  parser = ArgumentParser(description='prepares a dataset to train DiffWave')
+  parser = ArgumentParser(description='prepares a dataset to train DiffuSE')
   parser.add_argument('dir', 
       help='directory containing .wav files for training')
   parser.add_argument('outdir',

@@ -25,12 +25,11 @@ from sympy import symbols, Eq, solve
 
 from torch.utils.tensorboard import SummaryWriter
 from params import AttrDict, params as base_params
-from model import DiffWave
+from model import DiffuSE
 
 from os import path
 from glob import glob
 from tqdm import tqdm
-
 random.seed(23)
 
 models = {}
@@ -43,7 +42,8 @@ def load_model(model_dir=None, args=None, params=None, device=torch.device('cuda
       checkpoint = torch.load(f'{model_dir}/weights.pt')
     else:
       checkpoint = torch.load(model_dir)
-    model = DiffWave(args, AttrDict(base_params)).to(device)
+    
+    model = DiffuSE(args, AttrDict(base_params)).to(device)
     model.load_state_dict(checkpoint['model'])
     model.eval()
     models[model_dir] = model
