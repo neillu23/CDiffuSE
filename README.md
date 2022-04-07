@@ -42,6 +42,8 @@ Usage:
 ./inference.sh [stage] [checkpoint id] [se or se_pre] [model name]
 ```
 
+The code of CDiffuSE is developed based on the code of [Diffwave](https://github.com/lmnt-com/diffwave) 
+
 ## References
 - [Conditional Diffusion Probabilistic Model for Speech Enhancement](https://arxiv.org/abs/2202.05256)
 - [A Study on Speech Enhancement Based on Diffusion Probabilistic Model](https://arxiv.org/abs/2107.11876)
