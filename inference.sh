@@ -1,6 +1,6 @@
 stage=$1
-ckp=$2
-model_name=$3
+model_name=$2
+ckp=$3
 
 . ./path.sh
 

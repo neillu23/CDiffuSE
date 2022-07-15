@@ -21,15 +21,17 @@ voicebank=[path_to_voicebank_directory]
 ```
 
 Usage:
-Train SE model or pretrain model with clean Mel-Spectrum conditioner
+Train SE model
 ```
-./train.sh [stage] [se or se_pre] [model_directory]
+./train.sh [stage] [model_directory]
 ```
 
-Train SE model based on the pretrain model with clean Mel-Spectrum conditioner
+Train SE model based on a pre-trained model.
 ```
-./train.sh [stage] se [model_directory] [pretrained_model_directory]/weights-[ckpt].pt
+./train.sh [stage] [model_directory] [pretrained_model_directory]/weights-[ckpt].pt
 ```
+
+Note that the pre-training step with clean Mel-Spectrum conditioners is no longer needed in CDiffuSE. A randomly initialized CDiffuSE performs as well as one initialized from pre-trained parameters.
 
 #### Multi-GPU training
 By default, this implementation uses as many GPUs in parallel as returned by [`torch.cuda.device_count()`](https://pytorch.org/docs/stable/cuda.html#torch.cuda.device_count). You can specify which GPUs to use by setting the [`CUDA_DEVICES_AVAILABLE`](https://developer.nvidia.com/blog/cuda-pro-tip-control-gpu-visibility-cuda_visible_devices/) environment variable before running the training module.
@@ -38,8 +40,8 @@ By default, this implementation uses as many GPUs in parallel as returned by [`t
 
 Usage:
 ```
-./valid.sh [stage] [checkpoint id] [se or se_pre] [model name]
-./inference.sh [stage] [checkpoint id] [se or se_pre] [model name]
+./valid.sh [stage] [model name] [checkpoint id] 
+./inference.sh [stage] [model name] [checkpoint id]
 ```
 
 The code of CDiffuSE is developed based on the code of [Diffwave](https://github.com/lmnt-com/diffwave) 
