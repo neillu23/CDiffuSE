@@ -19,8 +19,7 @@ import pdb
 from itertools import repeat
 import numpy as np
 import torch
-import torchaudio as T
-import torchaudio.transforms as TT
+import torchaudio
 
 from argparse import ArgumentParser
 from concurrent.futures import ProcessPoolExecutor
@@ -70,10 +69,10 @@ def make_spectrum(filename=None, y=None, is_slice=False, feature_type='logmag', 
 
 
 def transform(filename,indir,outdir):
-  audio, sr = T.load_wav(filename)
+  audio, sr = torchaudio.load(filename)
   if params.sample_rate != sr:
     raise ValueError(f'Invalid sample rate {sr}.')
-  audio = torch.clamp(audio[0] / 32767.5, -1.0, 1.0)
+  audio = torch.clamp(audio[0], -1.0, 1.0)
 
   mel_args = {
       'sample_rate': sr,
@@ -86,7 +85,7 @@ def transform(filename,indir,outdir):
       'power': 1.0,
       'normalized': True,
   }
-  mel_spec_transform = TT.MelSpectrogram(**mel_args)
+  mel_spec_transform = torchaudio.transforms.MelSpectrogram(**mel_args)
   with torch.no_grad():
     spectrogram = mel_spec_transform(audio)
     spectrogram = 20 * torch.log10(torch.clamp(spectrogram, min=1e-5)) - 20

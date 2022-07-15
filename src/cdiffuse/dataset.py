@@ -53,12 +53,12 @@ class NumpyDataset(torch.utils.data.Dataset):
         audio_filename = spec_filename.replace(spec_path, self.wav_path).replace(".spec.npy", "")
       
     # print(audio_filename,spec_filename)
-    signal, _ = torchaudio.load_wav(audio_filename)
-    noisy_signal, _ = torchaudio.load_wav(noisy_filename)
+    signal, _ = torchaudio.load(audio_filename)
+    noisy_signal, _ = torchaudio.load(noisy_filename)
     spectrogram = np.load(spec_filename)
     return {
-        'audio': signal[0] / 32767.5,
-        'noisy': noisy_signal[0] / 32767.5,
+        'audio': signal[0],
+        'noisy': noisy_signal[0],
         'spectrogram': spectrogram.T
     }
 
