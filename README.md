@@ -11,7 +11,7 @@ CDiffuSE leverages recent advances in diffusion probabilistic models, and propos
 Pretrained models will be released soon
 
 ### Training
-Before you start training, you'll need to prepare a training dataset. The default dataset is VOICEBANK-DEMAND dataset. You can download them from [VOICEBANK-DEMAND](https://doi.org/10.7488/ds/2117)) and resample it to 16k Hz. By default, this implementation assumes a sample rate of 16 kHz. If you need to change this value, edit [params.py](https://github.com/lmnt-com/diffwave/blob/master/src/diffwave/params.py).
+Before you start training, you'll need to prepare a training dataset. The default dataset is VOICEBANK-DEMAND dataset. You can **download them from [VOICEBANK-DEMAND](https://doi.org/10.7488/ds/2117) and resample it to 16k Hz**. By default, this implementation assumes a sample rate of 16 kHz. If you need to change this value, edit [params.py](https://github.com/lmnt-com/diffwave/blob/master/src/diffwave/params.py).
 
 You need to set the output path and data path under path.sh
 
