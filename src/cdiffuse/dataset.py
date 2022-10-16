@@ -17,7 +17,7 @@ import numpy as np
 import os
 import random
 import torch
-import torchaudio
+import librosa
 
 from glob import glob
 from torch.utils.data.distributed import DistributedSampler
@@ -52,13 +52,13 @@ class NumpyDataset(torch.utils.data.Dataset):
       else:
         audio_filename = spec_filename.replace(spec_path, self.wav_path).replace(".spec.npy", "")
       
-    # print(audio_filename,spec_filename)
-    signal, _ = torchaudio.load(audio_filename)
-    noisy_signal, _ = torchaudio.load(noisy_filename)
+    signal, _ = librosa.load(audio_filename, sr=16000)
+    noisy_signal, _ = librosa.load(noisy_filename, sr=16000)  
+      
     spectrogram = np.load(spec_filename)
     return {
-        'audio': signal[0],
-        'noisy': noisy_signal[0],
+        'audio': signal,
+        'noisy': noisy_signal,
         'spectrogram': spectrogram.T
     }
 
