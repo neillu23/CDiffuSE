@@ -8,7 +8,8 @@ CDiffuSE leverages recent advances in diffusion probabilistic models, and propos
 [16 kHz audio samples](https://github.com/neillu23/CDiffuSE/tree/main/Sample%20Files)
 
 ## Pretrained models 
-Pretrained models will be released soon
+[CDiffuSE Pretrained models](https://drive.google.com/drive/folders/1QQCiJSc8yrXvuCnyA8vrRplPiStuoD6M?usp=sharing) are released.
+The large model is the same as described in the paper. The base model was trained without the mel-spectrum pre-training phase, which is a little better than the ones on the paper.
 
 ### Training
 Before you start training, you'll need to prepare a training dataset. The default dataset is VOICEBANK-DEMAND dataset. You can **download them from [VOICEBANK-DEMAND](https://doi.org/10.7488/ds/2117) and resample it to 16k Hz**. By default, this implementation assumes a sample rate of 16 kHz. If you need to change this value, edit [params.py](https://github.com/lmnt-com/diffwave/blob/master/src/diffwave/params.py).
