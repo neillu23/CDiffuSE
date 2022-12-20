@@ -13,7 +13,7 @@ spec_root=${output_path}/spec/voicebank_Noisy
 spec_type="noisy spectrum"
 
 
-if [ ${stage} -le 1 ]; then
+if [[ ${stage} -le 1 ]]; then
     echo "stage 1 : preparing training and validation data"
     wave_path=${wav_root}
     echo "create ${spec_type} from ${wave_path} to ${spec_root}"
@@ -28,7 +28,7 @@ if [ ${stage} -le 1 ]; then
 
 fi
 
-if [ ${stage} -le 2 ]; then
+if [[ ${stage} -le 2 ]]; then
     echo "stage 2 : training model"
     target_wav_root=${voicebank_clean}
     noisy_wav_root=${voicebank_noisy}

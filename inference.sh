@@ -12,7 +12,7 @@ spec_root=${output_path}/spec/voicebank_Noisy_Test
 spec_type="noisy spectrum"
 
 
-if [ ${stage} -le 1 ]; then
+if [[ ${stage} -le 1 ]]; then
     echo "stage 1 : preparing testing data"
 
     spec_path=${spec_root}
@@ -23,7 +23,7 @@ if [ ${stage} -le 1 ]; then
     python src/cdiffuse/preprocess.py ${wave_path} ${spec_path} --se --test --voicebank
 fi
 
-if [ ${stage} -le 2 ]; then
+if [[ ${stage} -le 2 ]]; then
     echo "stage 2 : inference model"
 
     test_spec_list=${spec_root}
@@ -35,7 +35,7 @@ if [ ${stage} -le 2 ]; then
     python src/cdiffuse/inference.py  ${output_path}/${model_name}/weights-${ckp}.pt ${test_spec_list} ${voicebank_noisy} -o ${enhanced_path} --se --voicebank
 fi
 
-# if [ ${stage} -le 3 ]; then
+# if [[ ${stage} -le 3 ]]; then
 #     echo "stage 3 : scoring"
 #     score_file=${output_path}/Enhanced/${model_name}/scores.csv
 #     clean_wav=${voicebank_clean}
